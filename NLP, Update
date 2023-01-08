@@ -1,0 +1,77 @@
+import nltk
+from nltk.tokenize import word_tokenize
+from nltk.corpus import stopwords
+from nltk.stem import WordNetLemmatizer
+from sklearn.feature_extraction.text import CountVectorizer, TfidfVectorizer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.naive_bayes import MultinomialNB
+from sklearn.metrics import confusion_matrix, classification_report
+
+# download necessary nltk packages
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+nltk.download('stopwords')
+nltk.download('wordnet')
+
+# input text
+text = "Hello! How are you today?"
+
+# function to preprocess text
+def preprocess(text):
+  # tokenize words
+  tokens = word_tokenize(text)
+
+  # remove stop words
+  stop_words = set(stopwords.words('english'))
+  filtered_tokens = [token for token in tokens if token not in stop_words]
+
+  # lemmatize words
+  lemmatizer = WordNetLemmatizer()
+  lemmatized_tokens = [lemmatizer.lemmatize(token) for token in filtered_tokens]
+
+  return lemmatized_tokens
+
+# function to tag part of speech
+def pos_tagging(text):
+  tokens = word_tokenize(text)
+  pos_tags = nltk.pos_tag(tokens)
+  return pos_tags
+
+# function to extract named entities
+def named_entity_recognition(text):
+  tokens = word_tokenize(text)
+  pos_tags = nltk.pos_tag(tokens)
+  entities = nltk.chunk.ne_chunk(pos_tags)
+  return entities
+
+# preprocess text
+processed_text = preprocess(text)
+print("Processed text:", processed_text)
+
+# tag part of speech
+pos_tags = pos_tagging(text)
+print("POS tags:", pos_tags)
+
+# extract named entities
+entities = named_entity_recognition(text)
+print("Named entities:", entities)
+
+# create training and test sets
+corpus = [
+  "This is writtem ny kidusberhanu.",
+  "an expireance Machine learing student.",
+  "add another sentence here.",
+  "add another here.",
+  "i am an intern at google."
+]
+labels = [0, 0, 0, 1, 1]
+
+vectorizer = CountVectorizer()
+X = vectorizer.fit_transform(corpus)
+X_train, X_test, y_train, y_test = train_test_split(X, labels, test_size=0.2)
+
+# function to train and evaluate a classifier
+def evaluate_classifier(classifier, X_train, X_test, y_train, y_test):
+  classifier.fit(X_train, y_train)
+  predictions = classifier.predict(X_test)
