@@ -1,0 +1,20 @@
+import nltk
+
+# download necessary nltk packages
+nltk.download('punkt')
+nltk.download('averaged_perceptron_tagger')
+
+# input text
+text = "Hello! How are you today?"
+
+# tokenize words
+tokens = nltk.word_tokenize(text)
+print("Tokens:", tokens)
+
+# tag part of speech
+pos_tags = nltk.pos_tag(tokens)
+print("POS tags:", pos_tags)
+
+# extract named entities
+entities = nltk.chunk.ne_chunk(pos_tags)
+print("Named entities:", entities)
