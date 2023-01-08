@@ -59,11 +59,11 @@ print("Named entities:", entities)
 
 # create training and test sets
 corpus = [
-  "This is a sentence.",
-  "This is another sentence.",
-  "This is yet another sentence.",
-  "This is a fourth sentence.",
-  "This is a fifth sentence."
+  "This is writtem ny kidusberhanu.",
+  "an expireance Machine learing student.",
+  "add another sentence here.",
+  "add another here.",
+  "i am an intern at google."
 ]
 labels = [0, 0, 0, 1, 1]
 
